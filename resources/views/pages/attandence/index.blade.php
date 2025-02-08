@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Master Barang')
+@section('title', 'Divisi')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -25,7 +25,7 @@
             <div class="section-body">
 
                 <div class="row">
-                    <div class="col-8">
+                    <div class="col-9">
                         <div class="card">
                             <div class="card-header">
                                 <h4>{{ $menu }}</h4>
@@ -38,12 +38,13 @@
                                                 <th class="text-center">
                                                     #
                                                 </th>
-                                                <th>Kode Barang</th>
-                                                <th>Nama Barang</th>
-                                                <th>Satuan Barang</th>
-                                                <th>Stok Barang</th>
-                                                <th>Harga Satuan</th>
-                                                <th width="20%">Action</th>
+                                                <th>Nama Pengguna</th>
+                                                <th>Tanggal</th>
+                                                <th>Latlon In</th>
+                                                <th>Latlon Out</th>
+                                                <th>Time In</th>
+                                                <th>Time Out</th>
+                                                <th>Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -54,37 +55,40 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                         <div class="card">
                             <div class="card-header">
                                 <h4>{{ $form }}</h4>
                             </div>
-                            <form id="formBarang" action="" method="method">
+                            <form id="formJurusan" action="" method="method">
                                 @csrf
                                 <div class="card-body">
                                     <input type="hidden" name="id">
                                     <div class="form-group">
-                                        <label for="catgory_name">Header Barang</label>
-                                        <select class="form-control" name="id_header" id="kode_header">
-                                            @foreach ($header as $h)
-                                                <option value="{{ $h->id }}"> {{ $h->name }}</option>
-                                            @endforeach
-
-                                        </select>
+                                        <label for="catgory_name">Nama Pengguna</label>
+                                        <input type="text" id="name" name="name" class="form-control" readonly>
                                     </div>
                                     <div class="form-group">
-                                        <label for="catgory_name">Nama Barang</label>
-                                        <input type="text" name="nama_barang" class="form-control">
+                                        <label for="catgory_name">Tanggal</label>
+                                        <input type="text" id="date" name="date" class="form-control">
                                     </div>
                                     <div class="form-group">
-                                        <label for="catgory_name">Satuan</label>
-                                        <input type="text" name="satuan" class="form-control">
+                                        <label for="catgory_name">Latlon In</label>
+                                        <input type="text" id="latlon_in" name="latlon_in" class="form-control" readonly>
                                     </div>
                                     <div class="form-group">
-                                        <label for="catgory_name">Harga satuan</label>
-                                        <input type="text" name="harga" class="form-control">
+                                        <label for="catgory_name">Latlon Out</label>
+                                        <input type="text" id="latlon_out" name="latlon_out" class="form-control" readonly>
                                     </div>
 
+                                    <div class="form-group">
+                                        <label for="catgory_name">Time In</label>
+                                        <input type="time" id="time_in" name="time_in" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="catgory_name">Time Out</label>
+                                        <input type="time" id="time_out" name="time_out" class="form-control">
+                                    </div>
                                 </div>
                                 <div class="card-footer">
                                     <button class="btn btn-primary">Submit</button>
@@ -116,16 +120,16 @@
         var method;
 
         method = 'POST';
-        formUrl = "{{ route('barang.store') }}"
+        formUrl= "{{ route('attandence.store') }}"
 
 
         $(document).ready(function() {
 
             $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
 
             dt = $('#table-1').DataTable({
                 "destroy": true,
@@ -133,35 +137,46 @@
                 "select": true,
                 // "scrollX": true,
                 "ajax": {
-                    "url": "{{ route('getBarang') }}",
+                    "url": "{{ route('getDataAttandence') }}",
                 },
                 "columns": [{
                         data: "DT_RowIndex",
                         orderable: true,
                         searchable: true
                     }, {
-                        data: "kode_barang",
-                        orderable: true,
-                        searchable: true
-                    },
-                    {
-                        data: "nama_barang",
+                        data: "name",
                         orderable: true,
                         searchable: true
                     }, {
-                        data: "satuan",
+                        data: "date",
                         orderable: true,
                         searchable: true
                     },
+
                     {
-                        data: "stok",
+                        data: "latlon_in",
                         orderable: true,
-                        searchable: true
+                        searchable: true,
+                        width:40
                     },
                     {
-                        data: "harga",
+                        data: "latlon_out",
                         orderable: true,
-                        searchable: true
+                        searchable: true,
+                        width:40
+                    },
+
+                    {
+                        data: "time_in",
+                        orderable: true,
+                        searchable: true,
+                        width:40
+                    },
+                    {
+                        data: "time_out",
+                        orderable: true,
+                        searchable: true,
+                        width:40
                     },
                     {
                         data: "index",
@@ -174,13 +189,11 @@
 
                     {
                         "render": function(data, type, row, meta) {
-                            var result =
-                                `<button class="btn btn-sm btn-success" type="button" onclick='edit(${meta.row})'>Edit</button> &nbsp;`;
-                            result +=
-                                `<button class="btn btn-sm btn-danger" type="button" onclick='remove(${meta.row})'>Hapus</button>`;
-                            return result;
+                            var result = `<button class="btn btn-sm btn-success" type="button" onclick='edit(${meta.row})'>Edit</button> &nbsp;`;
+                            result += `<button class="btn btn-sm btn-danger" type="button" onclick='remove(${meta.row})'>Hapus</button>`;
+                            return result ;
                         },
-                        "targets": 6
+                        "targets": 7
                     },
                 ]
             });
@@ -188,18 +201,16 @@
 
         function edit(obj) {
             var data = dt.row(obj).data();
-            $("#formBarang").deserialize(data)
-
-            $('#id_header').val(data.id_header).trigger('change');
+            $("#formJurusan").deserialize(data)
 
             method = 'POST';
-            formUrl = "{{ route('barang.update') }}";
+            formUrl= "{{ route('attandence.update') }}";
 
         }
 
 
 
-        $("#formBarang").submit(function(e) {
+        $("#formJurusan").submit(function(e) {
 
             e.preventDefault();
             var formData = new FormData(this);
@@ -238,45 +249,45 @@
 
         function remove(obj) {
 
-            let data = dt.row(obj).data();
-            Swal
-                .fire({
-                    title: 'Apakah anda yakin.?',
-                    text: "Data yang dihapus tidak dapat dikembalikan!",
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya!'
-                })
-                .then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: "{{ route('barang.destroy', ':id') }}".replace(':id', data.id),
-                            type: "DELETE",
-                            cache: false,
-                            data: {
-                                "_token": "{{ csrf_token() }}"
-                            },
-                            success: function(data, textStatus, jqXHR) {
-                                let view = jQuery.parseJSON(data);
-                                if (view.status == true) {
-                                    toastr.success(view.message);
-                                    setTimeout(function() {
-                                        location.reload();
-                                    }, 500);
-                                } else {
-                                    toastr.error(view.message);
-                                    setTimeout(function() {
-                                        location.reload();
-                                    }, 500);
-                                }
-                            },
-                            error: function(jqXHR, textStatus, errorThrown) {
-                                toastr.error('Data gagal dihapus.');
-                            }
-                        });
-                    }
-                })
+                            let data = dt.row(obj).data();
+                            Swal
+                                .fire({
+                                    title: 'Apakah anda yakin.?',
+                                    text: "Data yang dihapus tidak dapat dikembalikan!",
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Ya!'
+                                })
+                                .then((result) => {
+                                    if (result.isConfirmed) {
+                                        $.ajax({
+                                            url:  "{{ route('attandence.destroy', ':id') }}".replace(':id', data.id),
+                                            type: "DELETE",
+                                            cache: false,
+                                            data: {
+                                                "_token": "{{ csrf_token() }}"
+                                            },
+                                            success: function (data, textStatus, jqXHR) {
+                                                let view = jQuery.parseJSON(data);
+                                                if (view.status == true) {
+                                                    toastr.success(view.message);
+                                                    setTimeout(function() {
+                                                        location.reload();
+                                                    }, 500);
+                                                } else {
+                                                    toastr.error(view.message);
+                                                    setTimeout(function() {
+                                                        location.reload();
+                                                    }, 500);
+                                                }
+                                            },
+                                            error: function (jqXHR, textStatus, errorThrown) {
+                                                toastr.error('Data gagal dihapus.');
+                                            }
+                                        });
+                                    }
+                                })
 
 
         }

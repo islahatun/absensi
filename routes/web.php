@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\AsetController;
+use App\Http\Controllers\AttandenceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\BarangKeluarController;
 use App\Http\Controllers\BarangMasukController;
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartementController;
 use App\Http\Controllers\HeaderBarangController;
@@ -53,6 +55,28 @@ Route::resource('user',UserController::class)->names([
     'show'    => 'user.show',
     'edit'    => 'user.edit',
     'destroy' => 'user.destroy',
+])->except('update')->middleware('auth');
+
+Route::get('/getDataCompany', [CompanyController::class, 'getData'])->name('getDataCompany')->middleware('auth');
+Route::post('/updateCompany', [CompanyController::class, 'update'])->name('company.update')->middleware('auth');
+Route::resource('company',CompanyController::class)->names([
+    'index'   => 'company.index',
+    'create'  => 'company.create',
+    'store'   => 'company.store',
+    'show'    => 'company.show',
+    'edit'    => 'company.edit',
+    'destroy' => 'company.destroy',
+])->except('update')->middleware('auth');
+
+Route::get('/getDataAttandence', [AttandenceController::class, 'getData'])->name('getDataAttandence')->middleware('auth');
+Route::post('/updateAttandence', [AttandenceController::class, 'update'])->name('attandence.update')->middleware('auth');
+Route::resource('attandence',AttandenceController::class)->names([
+    'index'   => 'attandence.index',
+    'create'  => 'attandence.create',
+    'store'   => 'attandence.store',
+    'show'    => 'attandence.show',
+    'edit'    => 'attandence.edit',
+    'destroy' => 'attandence.destroy',
 ])->except('update')->middleware('auth');
 
 

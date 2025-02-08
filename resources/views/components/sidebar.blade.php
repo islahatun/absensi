@@ -39,14 +39,14 @@
                         <a class="nav-link"
                             href="{{ url('user') }}">Master User</a>
                     </li>
-                    <li class="{{ Request::is('header') ? 'active' : '' }}">
+                    <li class="{{ Request::is('company') ? 'active' : '' }}">
                         <a class="nav-link"
-                            href="{{ url('header') }}">Header Barang</a>
+                            href="{{ url('company') }}">Perusahaan</a>
                     </li>
-                    <li class="{{ Request::is('barang') ? 'active' : '' }}">
+                    {{-- <li class="{{ Request::is('barang') ? 'active' : '' }}">
                         <a class="nav-link"
                             href="{{ url('barang') }}">Master Barang</a>
-                    </li>
+                    </li> --}}
                 </ul>
             </li>
             @endif
@@ -54,14 +54,16 @@
                 <a class="nav-link"
                     href="{{ url('blank-page') }}"><i class="far fa-square"></i> <span>Blank Page</span></a>
             </li> --}}
+
+
             <li class="nav-item dropdown {{ $type_menu === 'transaksi' ? 'active' : '' }}">
                 <a href="#"
                     class="nav-link has-dropdown"><i class="fas fa-th"></i> <span>Transaksi</span></a>
                 <ul class="dropdown-menu">
                     @if(Auth::user()->role == 2)
-                    <li class="{{ Request::is('barangMasuk') ? 'active' : '' }}">
+                    <li class="{{ Request::is('attandence') ? 'active' : '' }}">
                         <a class="nav-link"
-                            href="{{ url('barangMasuk') }}">Barang Masuk</a>
+                            href="{{ url('attandence') }}">Attandence</a>
                     </li>
                     <li class="{{ Request::is('barangKeluar') ? 'active' : '' }}">
                         <a class="nav-link"

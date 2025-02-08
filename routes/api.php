@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AttandenceController;
 use App\Http\Controllers\Api\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,3 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/login',[AuthController::class,'login']);
 Route::post('/logout',[AuthController::class,'logOut'])->middleware('auth:sanctum');
+Route::post('/checkIn',[AttandenceController::class,'checkIn'])->middleware('auth:sanctum');
+Route::post('/checkOut',[AttandenceController::class,'checkOut'])->middleware('auth:sanctum');
+Route::get('/isCheckedIn',[AttandenceController::class,'isCheckedIn'])->middleware('auth:sanctum');
+Route::get('/isCheckedOut',[AttandenceController::class,'isCheckedOut'])->middleware('auth:sanctum');

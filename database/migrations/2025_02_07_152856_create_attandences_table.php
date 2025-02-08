@@ -17,8 +17,8 @@ return new class extends Migration
             $table->date('date');
             $table->time('time_in');
             $table->time('time_out')->nullable();
-            $table->string('latlong_in', 255);
-            $table->string('latlong_out', 255)->nullable();
+            $table->string('latlon_in', 255);
+            $table->string('latlon_out', 255)->nullable();
             $table->timestamps();
         });
     }
