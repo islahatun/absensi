@@ -65,13 +65,13 @@
                         <a class="nav-link"
                             href="{{ url('attandence') }}">Attandence</a>
                     </li>
-                    <li class="{{ Request::is('barangKeluar') ? 'active' : '' }}">
+                    <li class="{{ Request::is('izin') ? 'active' : '' }}">
                         <a class="nav-link"
-                            href="{{ url('barangKeluar') }}">Barang Keluar</a>
+                            href="{{ url('izin') }}">Izin</a>
                     </li>
-                    <li class="{{ Request::is('acc') ? 'active' : '' }}">
+                    <li class="{{ Request::is('note') ? 'active' : '' }}">
                         <a class="nav-link"
-                            href="{{ url('acc') }}">Acc Pengajuan Barang</a>
+                            href="{{ url('note') }}">Note</a>
                     </li>
                     @endif
                     @if(Auth::user()->role == 1)

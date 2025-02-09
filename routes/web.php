@@ -10,6 +10,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartementController;
 use App\Http\Controllers\HeaderBarangController;
+use App\Http\Controllers\IzinController;
 use App\Http\Controllers\PengajuanController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -77,6 +78,17 @@ Route::resource('attandence',AttandenceController::class)->names([
     'show'    => 'attandence.show',
     'edit'    => 'attandence.edit',
     'destroy' => 'attandence.destroy',
+])->except('update')->middleware('auth');
+
+Route::get('/getDataIzin', [IzinController::class, 'getData'])->name('getDataIzin')->middleware('auth');
+Route::post('/updateIzin', [IzinController::class, 'update'])->name('izin.update')->middleware('auth');
+Route::resource('izin',IzinController::class)->names([
+    'index'   => 'izin.index',
+    'create'  => 'izin.create',
+    'store'   => 'izin.store',
+    'show'    => 'izin.show',
+    'edit'    => 'izin.edit',
+    'destroy' => 'izin.destroy',
 ])->except('update')->middleware('auth');
 
 

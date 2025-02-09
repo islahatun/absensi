@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AttandenceController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\IzinController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,3 +27,6 @@ Route::post('/checkIn',[AttandenceController::class,'checkIn'])->middleware('aut
 Route::post('/checkOut',[AttandenceController::class,'checkOut'])->middleware('auth:sanctum');
 Route::get('/isCheckedIn',[AttandenceController::class,'isCheckedIn'])->middleware('auth:sanctum');
 Route::get('/isCheckedOut',[AttandenceController::class,'isCheckedOut'])->middleware('auth:sanctum');
+Route::post('/updateProfile',[AuthController::class,'updateProfile'])->middleware('auth:sanctum');
+Route::post('/izin',[IzinController::class,'izin'])->middleware('auth:sanctum');
+

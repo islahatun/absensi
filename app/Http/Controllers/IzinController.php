@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\izin;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class IzinController extends Controller
 {
@@ -12,7 +14,32 @@ class IzinController extends Controller
      */
     public function index()
     {
-        //
+
+        $data = [
+            'type_menu' => 'master',
+            'menu'      => 'Izin',
+            'form'      => 'Form Izin'
+        ];
+        return view('pages.izin.index', $data);
+    }
+    public function getData()
+    {
+        $result  = izin::with('user')->get();
+
+        return DataTables::of($result)->addIndexColumn()
+        ->addColumn('name', function ($data) {
+
+            return $data->user?$data->user->name:'-';
+        })
+            ->addColumn('is_approval', function ($data) {
+
+                return $data->is_approval ==0?'Tidak disetujui':'disetujui';
+            })
+            ->addColumn('date_permission', function ($data) {
+                return $data->date_permission;
+            })
+
+            ->make(true);
     }
 
     /**
@@ -52,7 +79,34 @@ class IzinController extends Controller
      */
     public function update(Request $request, izin $izin)
     {
-        //
+         // Validate the request data
+         $request->validate([
+            'date_permission'      => 'required',
+            'reason'   => 'required',
+            'image'  => 'required',
+        ]);
+
+        // Update the category with the new data
+        $att = izin::find($request->id);
+
+        $att->date_permission   = $request->date_permission;
+        $att->reason            = $request->reason;
+        $att->is_approval       = $request->is_approval;
+
+
+        if ($att->save()) {
+            $message = array(
+                'status' => true,
+                'message' => 'Data Berhasil di ubah'
+            );
+        } else {
+            $message = array(
+                'status' => false,
+                'message' => 'Data gagal di ubah'
+            );
+        }
+
+        echo json_encode($message);
     }
 
     /**

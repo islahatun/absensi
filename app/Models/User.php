@@ -46,4 +46,8 @@ class User extends Authenticatable
     public function attandence(){
         return $this->hasMany(attandence::class,'user_id','id');
     }
+
+    public function izin(){
+        return $this->hasMany(izin::class,'user_id','id');
+    }
 }

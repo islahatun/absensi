@@ -32,9 +32,34 @@ class AuthController extends Controller
         }
     }
 
-    public function logOut(Request $request){
+    public function logOut(Request $request)
+    {
         $request->user()->currentAccessToken()->delete();
 
-        return response(['message'=>'Logged Out'],200);
+        return response(['message' => 'Logged Out'], 200);
+    }
+
+    public function updateProfile(Request $request)
+    {
+
+        $request->validate([
+            'image_url' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'face_embedded' => 'required',
+        ]);
+
+        $user   = $request->user();
+
+        $image  = $request->file('image_url');
+        $face_embedded  = $request->face_embedded;
+
+        $image->storeAs('public/images', $image->hashName());
+        $user->image_url    = $image->hashName();
+        $user->face_embedded = $face_embedded;
+        $user->save();
+
+        return response([
+            'message'   => 'Profile Updated',
+            'data'      =>$user
+        ], 200);
     }
 }
