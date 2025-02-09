@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AttandenceController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\IzinController;
+use App\Http\Controllers\Api\NoteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,4 +30,6 @@ Route::get('/isCheckedIn',[AttandenceController::class,'isCheckedIn'])->middlewa
 Route::get('/isCheckedOut',[AttandenceController::class,'isCheckedOut'])->middleware('auth:sanctum');
 Route::post('/updateProfile',[AuthController::class,'updateProfile'])->middleware('auth:sanctum');
 Route::post('/izin',[IzinController::class,'izin'])->middleware('auth:sanctum');
+Route::get('/getNote',[NoteController::class,'getNote'])->middleware('auth:sanctum');
+Route::post('/createNote',[NoteController::class,'createNote'])->middleware('auth:sanctum');
 

@@ -39,15 +39,23 @@ class User extends Authenticatable
     ];
 
 
-    public function departement(){
-        return $this->belongsTo(departement::class,'departement_id','id');
+    public function departement()
+    {
+        return $this->belongsTo(departement::class, 'departement_id', 'id');
     }
 
-    public function attandence(){
-        return $this->hasMany(attandence::class,'user_id','id');
+    public function attandence()
+    {
+        return $this->hasMany(attandence::class, 'user_id', 'id');
     }
 
-    public function izin(){
-        return $this->hasMany(izin::class,'user_id','id');
+    public function izin()
+    {
+        return $this->hasMany(izin::class, 'user_id', 'id');
+    }
+
+    public function note()
+    {
+        return $this->hasMany(note::class, 'user_id', 'id');
     }
 }
